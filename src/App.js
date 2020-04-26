@@ -4,6 +4,7 @@ import Header from './component/header'
 import CurrencyRow from './component/currencyRow'
 import DateRow from './component/dateRow'
 import axios from 'axios'
+import moment from 'moment'
 
 function App() {
 
@@ -38,19 +39,17 @@ function App() {
   }, [])
 
   // updates the exchange rate when the user selects a new currency option.
+  // TODO: Rewrite the logic.
   useEffect(() => {
     if (fromCurrency !== null && toCurrency !== null) {
       if (fromCurrency !== toCurrency) {
-        axios.get('http://localhost:5000/')
-        .then(response => response.json())
-        .then(data => setExchangeRate(data.rates[toCurrency]))
-      } else {
-        let tempCurrency = fromCurrency;
-        setFromCurrency(toCurrency);
-        setToCurrency(tempCurrency);
-      }
+        axios.get('http://localhost:5000/'+fromCurrency)
+        .then(response => {
+          const data = response.data;
+          setExchangeRate(data.rates[fromCurrency]);})
+      } 
     }
-  }, [fromCurrency, toCurrency])
+  }, [toCurrency, fromCurrency])
   
   function handleFromAmountChange(e) {
     setAmount(e.target.value);
@@ -62,9 +61,18 @@ function App() {
     setAmountInFromCurrency(false);
   }
 
-  // TODO: use axios to get the history rate.
+  // Use axios to get the historical rate.
   function handleDateChange(e) {
     setDate(e);
+    const date = moment(e, 'YYYY-MM-DD').format();
+    const dateStr = date.substr(0,10);
+    console.log(dateStr);
+    axios.get('http://localhost:5000/historical/'+ dateStr)
+    .then(response => {
+      const data = response.data;
+      setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
+      setExchangeRate(data.rates[fromCurrency]);
+    })
   }
 
   return (

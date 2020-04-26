@@ -13,8 +13,10 @@ export default function dateRow(props) {
           <label>Date: </label>
           <div>
             <DatePicker
+            dateFormat="yyyy-MM-dd"
               selected={date}
               onChange={onChangeDate}
+              value={date}
             />
           </div>
         </div>

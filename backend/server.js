@@ -22,23 +22,27 @@ app.use((req, res, next) => {
     next();
   });
 
-  const get_init_data = async url => {
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-      console.log(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
 // By default, we get the latest currency exchange rates.
 app.get('/init', async (req,res) => {
     let result = await fetch(base_url + latest_query + app_id_query);
     let json = await result.json();
     return res.json(json);
 });
-  
+
+// Handling historical rate enquiry.
+app.get('/historical/:dateStr', async (req,res) => {
+    const dateStr = req.params.dateStr;
+    let result = await fetch(base_url + historical_query + dateStr + '.json' + app_id_query);
+    let json = await result.json();
+    return res.json(json);
+});
+
+// TODO: support base changes.
+app.get('/:base', async (req,res) => {
+    let result = await fetch(base_url + latest_query + app_id_query);
+    let json = await result.json();
+    return res.json(json);
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
