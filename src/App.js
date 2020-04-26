@@ -24,23 +24,17 @@ function App() {
     fromAmount = amount / exchangeRate;
   }
 
-//setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
 // fetching conversion rates from the backend.
-// axios.get('http://localhost:5000/')
-// .then(response => response.json())
-// .then(data => {
-//   const firstCurrency = Object.keys(data.rates)[0];
-//   setCurrencyOptions(['123', '456', '789']);
-//   setFromCurrency(data.base);
-//   setToCurrency(firstCurrency);
-//   setExchangeRate(data.rates[firstCurrency])
-// })
   useEffect(() => {
-      const firstCurrency = '123';
-      setCurrencyOptions(['123', '456', '789']);
-      setFromCurrency('123');
-      setToCurrency('456');
-      setExchangeRate(0.3);
+    axios.get('http://localhost:5000/init')
+    .then(response => {
+      const data = response.data;
+      const firstCurrency = Object.keys(data.rates)[0];
+      setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
+      setFromCurrency(data.base);
+      setToCurrency(firstCurrency);
+      setExchangeRate(data.rates[firstCurrency]);
+    })
   }, [])
 
   // updates the exchange rate when the user selects a new currency option.
