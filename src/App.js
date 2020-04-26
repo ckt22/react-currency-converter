@@ -24,6 +24,10 @@ function App() {
   } else {
     toAmount = amount;
     fromAmount = amount / exchangeRate;
+    if (fromAmount < 1) {
+      fromAmount = 1;
+      toAmount = 1 * exchangeRate;     
+    }
   }
 
 // fetching conversion rates from the backend.
