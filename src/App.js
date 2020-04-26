@@ -24,6 +24,9 @@ function App() {
   } else {
     toAmount = amount;
     fromAmount = amount / exchangeRate;
+  }
+
+  if (exchangeRate != null) {
     if (fromAmount < 1) {
       fromAmount = 1;
       toAmount = 1 * exchangeRate;     
