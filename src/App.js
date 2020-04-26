@@ -15,6 +15,7 @@ function App() {
   const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
   const [exchangeRate, setExchangeRate] = useState();
   const [date, setDate] = useState(new Date());
+  const [rates, setRates] = useState([]);
 
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
@@ -32,6 +33,7 @@ function App() {
       const data = response.data;
       const firstCurrency = Object.keys(data.rates)[0];
       setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
+      setRates([1, ...Object.values(data.rates)]);
       setFromCurrency(data.base);
       setToCurrency(firstCurrency);
       setExchangeRate(data.rates[firstCurrency]);
@@ -39,17 +41,19 @@ function App() {
   }, [])
 
   // updates the exchange rate when the user selects a new currency option.
-  // TODO: Rewrite the logic.
   useEffect(() => {
     if (fromCurrency !== null && toCurrency !== null) {
-      if (fromCurrency !== toCurrency) {
-        axios.get('http://localhost:5000/'+fromCurrency)
-        .then(response => {
-          const data = response.data;
-          setExchangeRate(data.rates[fromCurrency]);})
-      } 
+      setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
+      setAmountInFromCurrency(true);
     }
-  }, [toCurrency, fromCurrency])
+  }, [fromCurrency])
+
+  useEffect(() => {
+    if (fromCurrency !== null && toCurrency !== null) {
+      setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
+      setAmountInFromCurrency(false);
+    }
+  }, [toCurrency])
   
   function handleFromAmountChange(e) {
     setAmount(e.target.value);
@@ -71,7 +75,8 @@ function App() {
     .then(response => {
       const data = response.data;
       setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
-      setExchangeRate(data.rates[fromCurrency]);
+      setRates([1, ...Object.values(data.rates)]);
+      setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
     })
   }
 

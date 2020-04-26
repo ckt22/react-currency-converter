@@ -16,6 +16,8 @@ const latest_query = 'latest.json';
 const init_url = base_url + latest_query + app_id_query;
 const historical_query = 'historical/';
 
+let currentUrl = init_url;
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -24,7 +26,7 @@ app.use((req, res, next) => {
 
 // By default, we get the latest currency exchange rates.
 app.get('/init', async (req,res) => {
-    let result = await fetch(base_url + latest_query + app_id_query);
+    let result = await fetch(init_url);
     let json = await result.json();
     return res.json(json);
 });
@@ -32,14 +34,17 @@ app.get('/init', async (req,res) => {
 // Handling historical rate enquiry.
 app.get('/historical/:dateStr', async (req,res) => {
     const dateStr = req.params.dateStr;
-    let result = await fetch(base_url + historical_query + dateStr + '.json' + app_id_query);
+    currentUrl = base_url + historical_query + dateStr + '.json' + app_id_query;
+    let result = await fetch(currentUrl);
     let json = await result.json();
     return res.json(json);
 });
 
 // TODO: support base changes.
-app.get('/:base', async (req,res) => {
-    let result = await fetch(base_url + latest_query + app_id_query);
+app.get('/convert/:amount/:fromCurrency/:toCurrency', async (req,res) => {
+    const baseStr = req.params.base;
+    console.log(currentUrl + '&base=' + baseStr);
+    let result = await fetch(currentUrl + '&base=' + baseStr);
     let json = await result.json();
     return res.json(json);
 });
