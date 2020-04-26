@@ -1,6 +1,7 @@
 import React from 'react'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
 
 export default function dateRow(props) {
     const {
@@ -17,6 +18,9 @@ export default function dateRow(props) {
               selected={date}
               onChange={onChangeDate}
               value={date}
+              filterDate = {(date) => {
+                return moment() > date;
+              }}
             />
           </div>
         </div>
