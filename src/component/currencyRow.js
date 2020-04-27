@@ -9,7 +9,7 @@ export default function currencyRow(props) {
         amount
     } = props
     return (
-        <div>
+        <div className="currencyRows">
             <input className="input" type="number" value={amount} onChange={onChangeAmount} />
             <select value={selectedCurrency} onChange={onChangeCurrency}>
                 {currencyOptions.map(option => (

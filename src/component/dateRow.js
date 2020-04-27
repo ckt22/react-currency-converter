@@ -11,8 +11,7 @@ export default function dateRow(props) {
 
     return (
         <div className="form-group">
-          <label>Date: </label>
-          <div>
+          <label>Date:  </label>
             <DatePicker
             dateFormat="yyyy-MM-dd"
               selected={date}
@@ -22,7 +21,6 @@ export default function dateRow(props) {
                 return moment() > date;
               }}
             />
-          </div>
         </div>
     )
 }

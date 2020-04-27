@@ -5,6 +5,8 @@ import CurrencyRow from './component/currencyRow'
 import DateRow from './component/dateRow'
 import axios from 'axios'
 import moment from 'moment'
+import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col } from 'react-bootstrap';
 
 function App() {
 
@@ -87,30 +89,47 @@ function App() {
     })
   }
 
+//   <div className="container">
+//   <Header />
+// </div>
+
   return (
-    <div className="App">
-      <div className="container">
+      <Container>
+        {/* <Row float="center">
+          <Col xs={12}><Header /></Col>
+        </Row> */}
         <Header />
-        <CurrencyRow 
-          currencyOptions={currencyOptions}
-          selectedCurrency={fromCurrency}
-          onChangeCurrency={e => setFromCurrency(e.target.value)}
-          onChangeAmount={handleFromAmountChange}
-          amount={fromAmount}
-        />
-        <CurrencyRow 
-          currencyOptions={currencyOptions}
-          selectedCurrency={toCurrency}
-          onChangeCurrency={e => setToCurrency(e.target.value)}
-          onChangeAmount={handleToAmountChange}
-          amount={toAmount}
-        />
-        <DateRow 
-          date={date}
-          onChangeDate={handleDateChange}
-        />
-      </div>
-    </div>
+        <Row float="center">
+          <Col md={{ span: 6, offset: 3}}>
+            <CurrencyRow
+            currencyOptions={currencyOptions}
+            selectedCurrency={fromCurrency}
+            onChangeCurrency={e => setFromCurrency(e.target.value)}
+            onChangeAmount={handleFromAmountChange}
+            amount={fromAmount}
+            /> 
+          </Col>
+        </Row>
+        <Row float="center">
+          <Col md={{ span: 6, offset: 3}}>
+            <CurrencyRow 
+            currencyOptions={currencyOptions}
+            selectedCurrency={toCurrency}
+            onChangeCurrency={e => setToCurrency(e.target.value)}
+            onChangeAmount={handleToAmountChange}
+            amount={toAmount}
+            />
+          </Col>
+        </Row>
+        <Row float="center">
+          <Col md={{span: 9, offset: 3}}>
+            <DateRow
+            date={date}
+            onChangeDate={handleDateChange}
+            />
+          </Col>
+        </Row>   
+      </Container>
   );
 }
 

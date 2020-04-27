@@ -1,12 +1,13 @@
 
 body {
+  width: 100%;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 20vh;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .input {
@@ -17,6 +18,26 @@ body {
   margin: 1px;
 }
 
+.currencyRows {
+  width: 100%;
+  margin: 15px;
+  align-items: center;
+}
+
 select {
-  margin-left: 5px;
+  margin: 0 10px;
+}
+
+.header {
+  padding: 0.2em;
+  background: papayawhip;
+  width: 100%;
+}
+
+h1 {
+  font-size: 1.5em;
+  font-weight: 2px;
+  text-align: center;
+  color: palevioletred;
+  font-family: 'Courier New', Courier, monospace;
 }
