@@ -19,6 +19,9 @@ function App() {
   const [date, setDate] = useState(new Date());
   const [rates, setRates] = useState([]);
 
+  const prependTextFrom = "Converting:";
+  const prependTextTo = "To:";
+
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
     fromAmount = amount;
@@ -89,46 +92,43 @@ function App() {
     })
   }
 
-//   <div className="container">
-//   <Header />
-// </div>
-
   return (
       <Container>
-        {/* <Row float="center">
-          <Col xs={12}><Header /></Col>
-        </Row> */}
         <Header />
+        <div>
         <Row float="center">
-          <Col md={{ span: 6, offset: 3}}>
-            <CurrencyRow
+          <Col md={{span: 10, offset: 1}}>
+          <CurrencyRow
+            prependText={prependTextFrom}
             currencyOptions={currencyOptions}
             selectedCurrency={fromCurrency}
             onChangeCurrency={e => setFromCurrency(e.target.value)}
             onChangeAmount={handleFromAmountChange}
             amount={fromAmount}
-            /> 
+            />
           </Col>
         </Row>
         <Row float="center">
-          <Col md={{ span: 6, offset: 3}}>
-            <CurrencyRow 
+          <Col md={{span: 10, offset: 1}}>
+            <CurrencyRow
+            prependText={prependTextTo} 
             currencyOptions={currencyOptions}
             selectedCurrency={toCurrency}
             onChangeCurrency={e => setToCurrency(e.target.value)}
             onChangeAmount={handleToAmountChange}
             amount={toAmount}
-            />
-          </Col>
+            /> 
+            </Col>
         </Row>
         <Row float="center">
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 1}}>
             <DateRow
             date={date}
             onChangeDate={handleDateChange}
             />
           </Col>
-        </Row>   
+        </Row> 
+        </div>  
       </Container>
   );
 }

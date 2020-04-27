@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormControl, InputGroup } from 'react-bootstrap'
 
 export default function currencyRow(props) {
     const {
@@ -9,13 +10,21 @@ export default function currencyRow(props) {
         amount
     } = props
     return (
-        <div className="currencyRows">
-            <input className="input" type="number" value={amount} onChange={onChangeAmount} />
-            <select value={selectedCurrency} onChange={onChangeCurrency}>
-                {currencyOptions.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                ))}
-            </select>
-        </div>
+        <InputGroup className="mb-3">
+            <FormControl
+                type="number"
+                value={amount}
+                onChange={onChangeAmount}
+            >
+            </FormControl>
+            <select className="custom-select" value={selectedCurrency} onChange={onChangeCurrency}>
+            {currencyOptions.map(option => (
+                <option key={option} value={option}>{option}</option>
+            ))}
+            </select>            
+        </InputGroup>
     )
 }
+
+
+            {/* <input className="input" type="number" value={amount} onChange={onChangeAmount} />       */}
