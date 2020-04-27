@@ -21,6 +21,7 @@ function App() {
 
   const prependTextFrom = "Converting:";
   const prependTextTo = "To:";
+  const prependTextDate = "Choose Date";
 
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
@@ -121,8 +122,9 @@ function App() {
             </Col>
         </Row>
         <Row float="center">
-          <Col md={{span: 10, offset: 1}}>
+          <Col md={{span: 10, offset: 2}}>
             <DateRow
+            prependText={prependTextDate}
             date={date}
             onChangeDate={handleDateChange}
             />
