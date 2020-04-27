@@ -5,7 +5,7 @@ import CurrencyRow from './component/currencyRow'
 import DateRow from './component/dateRow'
 import axios from 'axios'
 import moment from 'moment'
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function App() {
@@ -19,9 +19,9 @@ function App() {
   const [date, setDate] = useState(new Date());
   const [rates, setRates] = useState([]);
 
-  const prependTextFrom = "Converting:";
-  const prependTextTo = "To:";
   const prependTextDate = "Choose Date";
+  const toCurrencyDescription = "to";
+  const fromCurrencyDescription = "from";
 
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
@@ -83,24 +83,35 @@ function App() {
     setDate(e);
     const date = moment(e, 'YYYY-MM-DD').format();
     const dateStr = date.substr(0,10);
-    console.log(dateStr);
-    axios.get('http://localhost:5000/historical/'+ dateStr)
-    .then(response => {
-      const data = response.data;
-      setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
-      setRates([1, ...Object.values(data.rates)]);
-      setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
-    })
+    const today = moment(new Date(), 'YYYY-MM-DD').format();
+    if ( dateStr !== today.substr(0,10) ) {
+      axios.get('http://localhost:5000/historical/'+ dateStr)
+      .then(response => {
+        const data = response.data;
+        setRates([1, ...Object.values(data.rates)]);
+        setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
+      })
+    } else {
+      axios.get('http://localhost:5000/init')
+      .then(response => {
+        const data = response.data;
+        const firstCurrency = Object.keys(data.rates)[0];
+        setRates([1, ...Object.values(data.rates)]);
+        setFromCurrency(data.base);
+        setToCurrency(firstCurrency);
+        setExchangeRate(data.rates[firstCurrency]);
+      })
+    }
   }
 
   return (
-      <Container>
-        <Header />
+      <Container fluid={true}>
+      <Header />
         <div>
         <Row float="center">
           <Col md={{span: 10, offset: 1}}>
           <CurrencyRow
-            prependText={prependTextFrom}
+            currencyDescription={fromCurrencyDescription}
             currencyOptions={currencyOptions}
             selectedCurrency={fromCurrency}
             onChangeCurrency={e => setFromCurrency(e.target.value)}
@@ -112,7 +123,7 @@ function App() {
         <Row float="center">
           <Col md={{span: 10, offset: 1}}>
             <CurrencyRow
-            prependText={prependTextTo} 
+            currencyDescription={toCurrencyDescription}
             currencyOptions={currencyOptions}
             selectedCurrency={toCurrency}
             onChangeCurrency={e => setToCurrency(e.target.value)}
@@ -122,7 +133,7 @@ function App() {
             </Col>
         </Row>
         <Row float="center">
-          <Col md={{span: 10, offset: 2}}>
+          <Col md={{span: 8, offset: 4}}>
             <DateRow
             prependText={prependTextDate}
             date={date}

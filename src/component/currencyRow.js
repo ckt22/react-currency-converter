@@ -3,6 +3,7 @@ import { FormControl, InputGroup } from 'react-bootstrap'
 
 export default function currencyRow(props) {
     const {
+        currencyDescription,
         currencyOptions,
         selectedCurrency,
         onChangeCurrency,
@@ -17,14 +18,11 @@ export default function currencyRow(props) {
                 onChange={onChangeAmount}
             >
             </FormControl>
-            <select className="custom-select" value={selectedCurrency} onChange={onChangeCurrency}>
+            <select className="custom-select" key={currencyDescription} value={selectedCurrency} onChange={onChangeCurrency}>
             {currencyOptions.map(option => (
-                <option key={option} value={option}>{option}</option>
+                <option key={option + currencyDescription} value={option}>{option}</option>
             ))}
             </select>            
         </InputGroup>
     )
 }
-
-
-            {/* <input className="input" type="number" value={amount} onChange={onChangeAmount} />       */}

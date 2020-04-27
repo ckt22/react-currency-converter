@@ -1,3 +1,10 @@
+#root {
+  width: 100%;
+}
+
+.container-fluid {
+  width: 100%;
+}
 
 body {
   width: 100%;
@@ -52,7 +59,7 @@ h1 {
 }
 
 .select-selected {
-  background-color: DodgerBlue;
+  background-color: #fd9d20;
 }
 
 /* Style the arrow inside the select element: */
@@ -85,7 +92,7 @@ h1 {
 /* Style items (options): */
 .select-items {
   position: absolute;
-  background-color: DodgerBlue;
+  background-color: orange;
   top: 100%;
   left: 0;
   right: 0;

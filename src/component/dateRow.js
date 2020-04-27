@@ -2,7 +2,7 @@ import React from 'react'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
-import { FormControl, InputGroup, Badge } from 'react-bootstrap'
+import { InputGroup, Badge } from 'react-bootstrap'
 
 export default function dateRow(props) {
 
@@ -20,7 +20,7 @@ const badgeStyle = {
 }
 
     return (
-      <div>
+      <InputGroup>
           <Badge pill variant="info" style={badgeStyle}>{prependText}</Badge>
           <DatePicker
                 dateFormat="yyyy-MM-dd"
@@ -31,6 +31,6 @@ const badgeStyle = {
                   return moment() > date;
                 }}
           />
-      </div>    
+      </InputGroup>    
     )
 }
