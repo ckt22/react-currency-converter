@@ -59,7 +59,6 @@ function App() {
     .then(response => {
       const data = response.data;
       setCurrencyFullName([...Object.values(data)]);
-      console.log(currencyFullName);
     });
 
   }, [])
@@ -67,17 +66,10 @@ function App() {
   // updates the exchange rate when the user selects a new currency option.
   useEffect(() => {
     if (fromCurrency !== null && toCurrency !== null) {
+      console.log("fromCurrencyChanged.");
       setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
-      setAmountInFromCurrency(true);
     }
-  }, [fromCurrency])
-
-  useEffect(() => {
-    if (fromCurrency !== null && toCurrency !== null) {
-      setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
-      setAmountInFromCurrency(false);
-    }
-  }, [toCurrency])
+  }, [fromCurrency, toCurrency])
   
   function handleFromAmountChange(e) {
     setAmount(e.target.value);
@@ -108,7 +100,7 @@ function App() {
         const data = response.data;
         setRates([...Object.values(data.rates)]);
         setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
-      })
+      });
     }
   }
 
