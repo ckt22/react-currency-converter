@@ -11,7 +11,7 @@ export default function messageBox() {
 
     return (
         <p style={styles}>
-            Select any two currencies from the dropdown to check their exchange rates. Input a non-negative amount to get its converted value. Have fun! :)
+            Select any two currencies from the dropdown to check their exchange rates. Input a non-negative amount to get its converted value. Select a date from the calendar to check historical exchange rates. Have fun! :)
         </p>
     )
 }
