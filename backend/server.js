@@ -15,6 +15,7 @@ const app_id_query = '?app_id=dc535d953853456ba5e31c20f2600398';
 const latest_query = 'latest.json';
 const init_url = base_url + latest_query + app_id_query;
 const historical_query = 'historical/';
+const currency_query = 'currencies.json';
 
 let currentUrl = init_url;
 
@@ -40,7 +41,14 @@ app.get('/historical/:dateStr', async (req,res) => {
     return res.json(json);
 });
 
-// TODO: support base changes.
+// Getting full names of currencies
+app.get('/currencies', async (req, res) => {
+    let result = await fetch(base_url+currency_query)
+    let json = await result.json();
+    return res.json(json);
+})
+
+// Abandoned code due to paid api request.
 app.get('/convert/:amount/:fromCurrency/:toCurrency', async (req,res) => {
     const baseStr = req.params.base;
     console.log(currentUrl + '&base=' + baseStr);

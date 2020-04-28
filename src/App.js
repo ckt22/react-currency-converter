@@ -19,6 +19,7 @@ function App() {
   const [exchangeRate, setExchangeRate] = useState();
   const [date, setDate] = useState(new Date());
   const [rates, setRates] = useState([]);
+  const [currencyFullName, setCurrencyFullName] = useState([]);
 
   const prependTextDate = "Choose Date";
   const toCurrencyDescription = "to";
@@ -36,7 +37,6 @@ function App() {
 
   if (exchangeRate != null) {
     if (fromAmount < 0 || toAmount < 0) {
-      setAmount(0);
       fromAmount = 0;
       toAmount = 0;     
     }
@@ -53,7 +53,15 @@ function App() {
       setFromCurrency(data.base);
       setToCurrency(firstCurrency);
       setExchangeRate(data.rates[firstCurrency]);
-    })
+    });
+
+    axios.get('http://localhost:5000/currencies')
+    .then(response => {
+      const data = response.data;
+      setCurrencyFullName([...Object.values(data)]);
+      console.log(currencyFullName);
+    });
+
   }, [])
 
   // updates the exchange rate when the user selects a new currency option.
@@ -91,7 +99,7 @@ function App() {
       axios.get('http://localhost:5000/historical/'+ dateStr)
       .then(response => {
         const data = response.data;
-        setRates([1, ...Object.values(data.rates)]);
+        setRates([...Object.values(data.rates)]);
         setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
       })
     } else {
@@ -118,6 +126,7 @@ function App() {
           <CurrencyRow
             currencyDescription={fromCurrencyDescription}
             currencyOptions={currencyOptions}
+            currencyFullName={currencyFullName}
             selectedCurrency={fromCurrency}
             onChangeCurrency={e => setFromCurrency(e.target.value)}
             onChangeAmount={handleFromAmountChange}
@@ -130,6 +139,7 @@ function App() {
             <CurrencyRow
             currencyDescription={toCurrencyDescription}
             currencyOptions={currencyOptions}
+            currencyFullName={currencyFullName}
             selectedCurrency={toCurrency}
             onChangeCurrency={e => setToCurrency(e.target.value)}
             onChangeAmount={handleToAmountChange}

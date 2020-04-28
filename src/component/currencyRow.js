@@ -6,6 +6,7 @@ export default function currencyRow(props) {
     const {
         currencyDescription,
         currencyOptions,
+        currencyFullName,
         selectedCurrency,
         onChangeCurrency,
         onChangeAmount,
@@ -20,8 +21,8 @@ export default function currencyRow(props) {
             >
             </FormControl>
             <select className="custom-select" key={currencyDescription} value={selectedCurrency} onChange={onChangeCurrency}>
-            {currencyOptions.map(option => (
-                <option key={option + currencyDescription} value={option}>{option}</option>
+            {currencyOptions.map((option, index) => (
+                <option key={option + currencyDescription} value={option}>{option}({currencyFullName[index]})</option>
             ))}
             </select>            
         </InputGroup>
