@@ -7,7 +7,7 @@ app.use(cors());
 // using json responses.
 // app.use(express.json());
 
-// app.use(express.static('../build'));
+app.use(express.static('../build'));
 
 const fetch = require('node-fetch');
 const base_url = 'https://openexchangerates.org/api/';
