@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
 
+// This is the component of currency input and selection.
 export default function currencyRow(props) {
     const {
         currencyDescription,

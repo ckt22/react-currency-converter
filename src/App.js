@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './component/header'
+import MessageBox from './component/messageBox'
 import CurrencyRow from './component/currencyRow'
 import DateRow from './component/dateRow'
 import axios from 'axios'
@@ -23,6 +24,7 @@ function App() {
   const toCurrencyDescription = "to";
   const fromCurrencyDescription = "from";
 
+  // Computing values for the amounts
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
     fromAmount = amount;
@@ -33,9 +35,10 @@ function App() {
   }
 
   if (exchangeRate != null) {
-    if (fromAmount < 1) {
-      fromAmount = 1;
-      toAmount = 1 * exchangeRate;     
+    if (fromAmount < 0 || toAmount < 0) {
+      setAmount(0);
+      fromAmount = 0;
+      toAmount = 0;     
     }
   }
 
@@ -95,11 +98,8 @@ function App() {
       axios.get('http://localhost:5000/init')
       .then(response => {
         const data = response.data;
-        const firstCurrency = Object.keys(data.rates)[0];
-        setRates([1, ...Object.values(data.rates)]);
-        setFromCurrency(data.base);
-        setToCurrency(firstCurrency);
-        setExchangeRate(data.rates[firstCurrency]);
+        setRates([...Object.values(data.rates)]);
+        setExchangeRate(rates[currencyOptions.indexOf(toCurrency)]/rates[currencyOptions.indexOf(fromCurrency)]);
       })
     }
   }
@@ -109,6 +109,11 @@ function App() {
       <Header />
         <div>
         <Row float="center">
+          <Col md={{span:10, offset: 1}}>
+            <MessageBox />
+          </Col>
+        </Row>
+        <Row float="center">
           <Col md={{span: 10, offset: 1}}>
           <CurrencyRow
             currencyDescription={fromCurrencyDescription}
@@ -116,7 +121,7 @@ function App() {
             selectedCurrency={fromCurrency}
             onChangeCurrency={e => setFromCurrency(e.target.value)}
             onChangeAmount={handleFromAmountChange}
-            amount={fromAmount}
+            amount={fromAmount || 0}
             />
           </Col>
         </Row>
@@ -128,7 +133,7 @@ function App() {
             selectedCurrency={toCurrency}
             onChangeCurrency={e => setToCurrency(e.target.value)}
             onChangeAmount={handleToAmountChange}
-            amount={toAmount}
+            amount={toAmount || 0}
             /> 
             </Col>
         </Row>

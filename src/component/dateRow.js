@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import { InputGroup, Badge } from 'react-bootstrap'
 
+// This component is the row of choosing dates.
 export default function dateRow(props) {
 
 const {
@@ -19,18 +20,18 @@ const badgeStyle = {
   fontFamily: 'Courier New, Courier, monospace',
 }
 
-    return (
-      <InputGroup>
-          <Badge pill variant="info" style={badgeStyle}>{prependText}</Badge>
-          <DatePicker
-                dateFormat="yyyy-MM-dd"
-                selected={date}
-                onChange={onChangeDate}
-                value={date}
-                filterDate = {(date) => {
-                  return moment() > date;
-                }}
-          />
-      </InputGroup>    
-    )
+return (
+  <InputGroup>
+    <Badge pill variant="info" style={badgeStyle}>{prependText}</Badge>
+      <DatePicker
+        dateFormat="yyyy-MM-dd"
+        selected={date}
+        onChange={onChangeDate}
+        value={date}
+        filterDate = {(date) => {
+          return moment() > date;
+          }}
+        />
+    </InputGroup>    
+  )
 }
